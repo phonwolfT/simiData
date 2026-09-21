@@ -106,7 +106,22 @@ class ApiService {
       final response = await _dio.get(AppConfig.textosPendienteEndpoint);
 
       if (response.statusCode == 200 && response.data != null) {
-        return TextoModel.fromJson(response.data as Map<String, dynamic>);
+        final List<dynamic> dataList = response.data;
+        if (dataList.isEmpty) {
+          throw Exception('No hay textos disponibles en el servidor.');
+        }
+
+        // Buscar el primer texto que aún no tenga audio grabado
+        final pendingData = dataList.firstWhere(
+          (item) => item['quechuaAudio'] == null,
+          orElse: () => null,
+        );
+
+        if (pendingData == null) {
+          throw Exception('No hay más textos pendientes por grabar.');
+        }
+
+        return TextoModel.fromJson(pendingData as Map<String, dynamic>);
       } else if (response.statusCode == 204) {
         throw Exception('No hay más textos pendientes por grabar.');
       } else {
@@ -149,16 +164,15 @@ class ApiService {
     // ── Modo Real ──
     try {
       final formData = FormData.fromMap({
-        'texto_id': textoId,
-        'texto_quechua': textoQuechuaIngresado,
-        'audio': await MultipartFile.fromFile(
+        'quechuaText': textoQuechuaIngresado,
+        'quechuaAudio': await MultipartFile.fromFile(
           audioPath,
           filename: 'audio_$textoId.wav',
         ),
       });
 
-      final response = await _dio.post(
-        AppConfig.audiosEndpoint,
+      final response = await _dio.patch(
+        '${AppConfig.audiosEndpoint}$textoId/',
         data: formData,
         onSendProgress: (sent, total) {
           if (total > 0) {

@@ -51,8 +51,8 @@ class TextoModel {
     return TextoModel(
       // Soporta tanto int como String para el ID
       id: json['id'].toString(),
-      textoQuechua: json['textoQuechua'] as String? ?? '',
-      textoEspanol: json['textoEspanol'] as String? ?? '',
+      textoQuechua: json['quechuaText'] as String? ?? '',
+      textoEspanol: json['spanishText'] as String? ?? '',
       estado: EstadoTexto.pendiente,
     );
   }

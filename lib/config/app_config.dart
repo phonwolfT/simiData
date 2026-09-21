@@ -7,13 +7,13 @@ library;
 class AppConfig {
   // ─── API ──────────────────────────────────────────────────────────────
   /// URL base de la API. Cambiar cuando se tenga el backend real.
-  static const String baseUrl = 'https://api.simidata.example.com';
+  static const String baseUrl = 'http://10.0.2.2:8000';
 
   /// Endpoint para obtener el siguiente texto pendiente de grabar.
-  static const String textosPendienteEndpoint = '/api/textos/pendiente';
+  static const String textosPendienteEndpoint = '/api/data/';
 
-  /// Endpoint para enviar el audio grabado.
-  static const String audiosEndpoint = '/api/audios';
+  /// Endpoint base para enviar el audio grabado (se añadirá el ID).
+  static const String audiosEndpoint = '/api/data/';
 
   // ─── Validación de Audio ──────────────────────────────────────────────
   /// Duración mínima permitida para un audio (en segundos).
@@ -44,7 +44,7 @@ class AppConfig {
   // ─── Modo Mock ────────────────────────────────────────────────────────
   /// Si es true, usa datos locales simulados en lugar de la API real.
   /// Activar durante desarrollo sin backend.
-  static const bool useMockData = true;
+  static const bool useMockData = false;
 
   // ─── Timeouts ─────────────────────────────────────────────────────────
   /// Timeout para peticiones GET (en milisegundos).
