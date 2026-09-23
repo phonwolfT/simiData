@@ -23,12 +23,16 @@ class TextoDisplay extends StatefulWidget {
   /// Callback cuando el usuario edita el texto en Quechua.
   final ValueChanged<String>? onQuechuaChanged;
 
+  /// Si es true, deshabilita la edición y oculta el cursor.
+  final bool readOnly;
+
   const TextoDisplay({
     super.key,
     required this.textoQuechua,
     required this.textoEspanol,
     required this.textoId,
     this.onQuechuaChanged,
+    this.readOnly = false,
   });
 
   @override
@@ -68,6 +72,10 @@ class _TextoDisplayState extends State<TextoDisplay>
     if (oldWidget.textoId != widget.textoId) {
       _animController.reset();
       _animController.forward();
+    }
+    // Quitar el foco si pasa a modo solo lectura
+    if (widget.readOnly && !oldWidget.readOnly) {
+      FocusScope.of(context).unfocus();
     }
   }
 
@@ -185,10 +193,13 @@ class _TextoDisplayState extends State<TextoDisplay>
               const SizedBox(height: 8),
 
               // Texto en quechua - campo de entrada editable
-              TextFormField(
-                initialValue: widget.textoQuechua,
-                onChanged: widget.onQuechuaChanged,
-                maxLines: null, // Permitir múltiples líneas si es largo
+              IgnorePointer(
+                ignoring: widget.readOnly,
+                child: TextFormField(
+                  initialValue: widget.textoQuechua,
+                  onChanged: widget.onQuechuaChanged,
+                  readOnly: widget.readOnly,
+                  maxLines: null, // Permitir múltiples líneas si es largo
                 style: GoogleFonts.merriweather(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
@@ -209,7 +220,8 @@ class _TextoDisplayState extends State<TextoDisplay>
                   isDense: true,
                 ),
               ),
-            ],
+            ),
+          ],
           ),
         ),
       ),

@@ -79,9 +79,12 @@ class _ReproductorAudioState extends State<ReproductorAudio> {
       return _buildError(colorScheme);
     }
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(20),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: colorScheme.surface.withAlpha(200),
         borderRadius: BorderRadius.circular(16),
@@ -270,69 +273,65 @@ class _ReproductorAudioState extends State<ReproductorAudio> {
 
           const SizedBox(height: 24),
 
-          // Botones de acción
-          Row(
-            children: [
-              // Volver a grabar
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {
-                    _player.stop();
-                    widget.onRegrabar();
-                  },
-                  icon: const Icon(Icons.refresh_rounded, size: 18),
-                  label: Text(
-                    'Regrabar',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    foregroundColor: colorScheme.onSurface.withAlpha(180),
-                    side: BorderSide(
-                      color: colorScheme.outline.withAlpha(60),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+          // Volver a grabar
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () {
+                _player.stop();
+                widget.onRegrabar();
+              },
+              icon: const Icon(Icons.refresh_rounded, size: 18),
+              label: Text(
+                'Regrabar',
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-
-              const SizedBox(width: 12),
-
-              // Confirmar y enviar
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: () {
-                    _player.stop();
-                    widget.onConfirmar();
-                  },
-                  icon: const Icon(Icons.cloud_upload_rounded, size: 18),
-                  label: Text(
-                    'Enviar',
-                    style: GoogleFonts.inter(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    backgroundColor: const Color(0xFF43A047),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                foregroundColor: colorScheme.onSurface.withAlpha(180),
+                side: BorderSide(
+                  color: colorScheme.outline.withAlpha(60),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-            ],
+            ),
           ),
         ],
       ),
-    );
+    ), // Fin del Container decorado
+
+    const SizedBox(height: 32),
+
+    // Confirmar y enviar
+    FilledButton.icon(
+      onPressed: () {
+        _player.stop();
+        widget.onConfirmar();
+      },
+      icon: const Icon(Icons.cloud_upload_rounded, size: 18),
+      label: Text(
+        'Enviar',
+        style: GoogleFonts.inter(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      style: FilledButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 48),
+        backgroundColor: const Color(0xFF43A047),
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    ),
+  ],
+);
   }
 
   Widget _buildError(ColorScheme colorScheme) {

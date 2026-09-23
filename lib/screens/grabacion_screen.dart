@@ -184,6 +184,7 @@ class GrabacionScreen extends StatelessWidget {
             textoQuechua: provider.textoQuechuaIngresado, // Pasar el del provider, no el original
             textoEspanol: provider.textoActual!.textoEspanol,
             onQuechuaChanged: provider.setTextoQuechuaIngresado,
+            readOnly: provider.estado != EstadoGrabacion.listoParaGrabar,
           );
         }
         return const SizedBox.shrink();

@@ -7,7 +7,7 @@ library;
 class AppConfig {
   // ─── API ──────────────────────────────────────────────────────────────
   /// URL base de la API. Cambiar cuando se tenga el backend real.
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  static const String baseUrl = 'http://192.168.0.191:8000';
 
   /// Endpoint para obtener el siguiente texto pendiente de grabar.
   static const String textosPendienteEndpoint = '/api/data/';

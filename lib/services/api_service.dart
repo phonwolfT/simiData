@@ -113,7 +113,7 @@ class ApiService {
 
         // Buscar el primer texto que aún no tenga audio grabado
         final pendingData = dataList.firstWhere(
-          (item) => item['quechuaAudio'] == null,
+          (item) => item['quechuaAudio'] == null || item['quechuaAudio'] == "",
           orElse: () => null,
         );
 
@@ -171,7 +171,7 @@ class ApiService {
         ),
       });
 
-      final response = await _dio.patch(
+      final response = await _dio.put(
         '${AppConfig.audiosEndpoint}$textoId/',
         data: formData,
         onSendProgress: (sent, total) {
